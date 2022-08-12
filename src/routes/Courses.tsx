@@ -1,8 +1,17 @@
+import { SyntheticEvent, useState } from 'react'
 import { ICourseData } from '../ts/interfaces'
 import CourseCard from '../components/CourseCard'
+import HolesCard from '../components/HolesCard'
 import '../scss/courses.scss'
 
 const Courses = () => {
+  const [selectedCourse, setSelectedCourse] = useState<ICourseData | null>()
+
+  const handleCourseSelect = (event: SyntheticEvent<HTMLButtonElement>) => {
+    const clickedCourseName = event.currentTarget.getAttribute('data-coursename')
+    setSelectedCourse(coursesData.find((course) => course.name === clickedCourseName))
+  }
+
   const coursesData = [
     {
       name: 'Course 1',
@@ -116,9 +125,14 @@ const Courses = () => {
     <div className='coursesRoute'>
       <div>
         {coursesData.map((course: ICourseData) => (
-          <CourseCard course={course} key={course.name}/>
+          <CourseCard course={course} key={course.name} handleCourseSelect={handleCourseSelect} />
         ))}
       </div>
+
+      {
+        selectedCourse &&
+        <HolesCard holes={selectedCourse.holesData} />
+      }
     </div>
   )
 }

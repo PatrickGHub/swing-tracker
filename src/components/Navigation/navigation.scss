@@ -1,0 +1,17 @@
+nav {
+  background-color: lightblue;
+  height: 2.5em;
+
+  ul {
+    display: flex;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+
+    li {
+      align-self: center;
+      cursor: pointer;
+      margin: 0 1em;
+    }
+  }
+}

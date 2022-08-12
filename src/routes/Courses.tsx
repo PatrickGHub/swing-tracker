@@ -125,7 +125,12 @@ const Courses = () => {
     <div className='coursesRoute'>
       <div>
         {coursesData.map((course: ICourseData) => (
-          <CourseCard course={course} key={course.name} handleCourseSelect={handleCourseSelect} />
+          <CourseCard
+            key={course.name}
+            course={course}
+            handleCourseSelect={handleCourseSelect}
+            selected={selectedCourse?.name === course.name}
+          />
         ))}
       </div>
 

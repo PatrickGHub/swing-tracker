@@ -1,0 +1,17 @@
+.holesCard {
+  .hole {
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    margin: 0.5em 0;
+    padding: 0.5em 1em;
+
+    span {
+      &:first-of-type {
+        grid-row: 1;
+      }
+      grid-row: 2;
+    }
+  }
+}

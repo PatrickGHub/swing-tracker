@@ -3,6 +3,9 @@ const AWS = require('aws-sdk')
 const dynamo = new AWS.DynamoDB.DocumentClient()
 
 export const handler = async (event) => {
+  console.log(`Event received: ${event.body}`)
+  event = JSON.parse(event.body)
+
   let statusCode: number = 200
   let body: string
 

@@ -20,6 +20,7 @@ resource "aws_iam_role" "lambda_role" {
         Statement = [
           {
             Action = [
+              "dynamodb:*",
               "logs:CreateLogStream",
               "logs:CreateLogGroup",
               "logs:PutLogEvents"

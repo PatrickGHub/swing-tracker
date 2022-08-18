@@ -1,6 +1,6 @@
 data "archive_file" "add_course" {
   type        = "zip"
-  source_dir  = "./lambdas/addCourse/compiled"
+  source_dir  = "./lambdas/courses/compiled"
   output_path = "add_course.zip"
 }
 

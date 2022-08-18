@@ -1,10 +1,11 @@
-const AWS = require('aws-sdk')
+import { APIGatewayProxyEventV2 } from 'aws-lambda'
+import { DynamoDB } from 'aws-sdk'
 
-const dynamo = new AWS.DynamoDB.DocumentClient()
+const dynamo = new DynamoDB.DocumentClient()
 
-export const handler = async (event) => {
+export const handler = async (event: APIGatewayProxyEventV2) => {
   console.log(`Event received: ${event.body}`)
-  event = JSON.parse(event.body)
+  const eventBody = JSON.parse(event.body)
 
   let statusCode: number = 200
   let body: string
@@ -13,14 +14,14 @@ export const handler = async (event) => {
     await dynamo.put({
       TableName: 'Courses',
       Item: {
-        Name: event.name,
-        Holes: event.holes,
-        Par: event.par
+        Name: eventBody.name,
+        Holes: eventBody.holes,
+        Par: eventBody.par
       }
     })
     .promise()
 
-    body = `Added course: ${event.name} to database`
+    body = `Added course: ${eventBody.name} to database`
   } catch (error) {
     statusCode = 400
     body = error.message

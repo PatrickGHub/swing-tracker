@@ -1,6 +1,7 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
 import axios from 'axios'
 import { ICourseData } from '../ts/interfaces'
+import Loader from '../components/Loader'
 import CourseCard from '../components/CourseCard'
 import HolesCard from '../components/HolesCard'
 import '../scss/courses.scss'
@@ -14,40 +15,46 @@ const Courses = () => {
     setSelectedCourse(courses.find((course) => course.name === clickedCourseName))
   }
 
-  // useEffect(() => {
-  //   const getAllCourses = async () => {
-  //     const allCourses = await axios({
-  //       method: 'POST',
-  //       url: `${process.env.REACT_APP_API_GATEWAY}/courses`,
-  //       data: {
-  //         action: 'GET_ALL'
-  //       }
-  //     })
+  useEffect(() => {
+    const getAllCourses = async () => {
+      const allCourses = await axios({
+        method: 'POST',
+        url: `${process.env.REACT_APP_API_GATEWAY}/courses`,
+        data: {
+          action: 'GET_ALL'
+        }
+      })
 
-  //     setCourses(allCourses.data.Items)
-  //   }
+      setCourses(allCourses.data.Items)
+    }
 
-  //   getAllCourses()
-  // }, [])
+    getAllCourses()
+  }, [])
 
   return (
-    <div className='coursesRoute'>
-      <div>
-        {courses && courses.map((course: ICourseData) => (
-          <CourseCard
-            key={course.name}
-            course={course}
-            handleCourseSelect={handleCourseSelect}
-            selected={selectedCourse?.name === course.name}
-          />
-        ))}
-      </div>
-
+    <>
       {
-        selectedCourse &&
-        <HolesCard holes={selectedCourse.holesData} />
+        courses.length > 0 ?
+          (
+            <div className='coursesRoute'>
+              {(courses.map((course: ICourseData) => (
+                <CourseCard
+                  key={course.name}
+                  course={course}
+                  handleCourseSelect={handleCourseSelect}
+                  selected={selectedCourse?.name === course.name}
+                />
+              )))}
+              {
+                selectedCourse &&
+                <HolesCard holes={selectedCourse.holesData} />
+              }
+            </div>
+          )
+        :
+          <Loader />
       }
-    </div>
+    </>
   )
 }
 

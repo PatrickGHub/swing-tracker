@@ -1,12 +1,12 @@
 import { Triangle } from 'react-loader-spinner'
+import './loader.scss'
 
 const Loader = () => (
-  <div className='loader'>
-    <Triangle
-      height='100'
-      width='100'
-    />
-  </div>
+  <Triangle
+    height='150'
+    width='150'
+    wrapperClass='loader'
+  />
 )
 
 export default Loader

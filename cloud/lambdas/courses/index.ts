@@ -1,5 +1,7 @@
 import { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { DynamoDB } from 'aws-sdk'
+import { AWSError, DynamoDB } from 'aws-sdk'
+import { ScanOutput } from 'aws-sdk/clients/dynamodb'
+import { PromiseResult } from 'aws-sdk/lib/request'
 
 const dynamo = new DynamoDB.DocumentClient()
 
@@ -8,10 +10,17 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
   const eventBody = JSON.parse(event.body)
 
   let statusCode: number = 200
-  let body: string
+  let body: string | PromiseResult<ScanOutput, AWSError>
 
   try {
     switch(eventBody.action) {
+      case 'GET_ALL':
+        body = await dynamo.scan({
+          TableName: 'Courses'
+        })
+        .promise()
+        break
+
       case 'PUT':
         await dynamo.put({
           TableName: 'Courses',
@@ -44,9 +53,15 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
   } catch (error) {
     statusCode = 400
     body = error.message
+  } finally {
+    body = JSON.stringify(body)
   }
 
   return {
+    headers: {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    },
     statusCode,
     body
   }

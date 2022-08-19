@@ -28,7 +28,7 @@ resource "aws_api_gateway_integration" "courses_integration" {
   http_method             = aws_api_gateway_method.courses_method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = aws_lambda_function.add_course.invoke_arn
+  uri                     = aws_lambda_function.courses.invoke_arn
   depends_on = [aws_api_gateway_method.courses_method]
 }
 

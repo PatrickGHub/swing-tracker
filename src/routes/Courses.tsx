@@ -14,21 +14,21 @@ const Courses = () => {
     setSelectedCourse(courses.find((course) => course.name === clickedCourseName))
   }
 
-  useEffect(() => {
-    const getAllCourses = async () => {
-      const allCourses = await axios({
-        method: 'POST',
-        url: `${process.env.REACT_APP_API_GATEWAY}/courses`,
-        data: {
-          action: 'GET_ALL'
-        }
-      })
+  // useEffect(() => {
+  //   const getAllCourses = async () => {
+  //     const allCourses = await axios({
+  //       method: 'POST',
+  //       url: `${process.env.REACT_APP_API_GATEWAY}/courses`,
+  //       data: {
+  //         action: 'GET_ALL'
+  //       }
+  //     })
 
-      setCourses(allCourses.data.Items)
-    }
+  //     setCourses(allCourses.data.Items)
+  //   }
 
-    getAllCourses()
-  }, [])
+  //   getAllCourses()
+  // }, [])
 
   return (
     <div className='coursesRoute'>

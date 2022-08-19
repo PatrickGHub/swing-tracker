@@ -9,6 +9,7 @@ resource "aws_api_gateway_method" "courses_method" {
   resource_id   = aws_api_gateway_resource.courses.id
   http_method   = "POST"
   authorization = "NONE"
+  api_key_required = true
 }
 
 resource "aws_api_gateway_method_response" "courses_response_200" {
@@ -43,6 +44,7 @@ resource "aws_api_gateway_integration_response" "courses_integration_response" {
   depends_on = [aws_api_gateway_integration.courses_integration, aws_api_gateway_method_response.courses_response_200]
 }
 
+# CORS
 resource "aws_api_gateway_method" "courses_options_method" {
   rest_api_id   = aws_api_gateway_rest_api.swing_tracker_api.id
   resource_id   = aws_api_gateway_resource.courses.id
@@ -98,4 +100,34 @@ resource "aws_api_gateway_integration_response" "courses_options_integration_res
     })
   }
   depends_on = [aws_api_gateway_method_response.courses_options_response_200]
+}
+
+# API Key
+resource "aws_api_gateway_api_key" "courses_api_key" {
+  name = "Courses API key"
+}
+
+resource "aws_api_gateway_usage_plan" "courses_usage_plan" {
+  name = "Courses usage plan"
+
+  throttle_settings {
+    burst_limit = 25
+    rate_limit  = 15
+  }
+
+  api_stages {
+    api_id = aws_api_gateway_rest_api.swing_tracker_api.id
+    stage = aws_api_gateway_stage.swing_tracker_api_stage.stage_name
+    throttle {
+      path = "/${aws_api_gateway_resource.courses.path_part}/${aws_api_gateway_method.courses_method.http_method}"
+      burst_limit = 25
+      rate_limit  = 15
+    }
+  }
+}
+
+resource "aws_api_gateway_usage_plan_key" "courses_usage_plan_key" {
+  key_id        = aws_api_gateway_api_key.courses_api_key.id
+  key_type      = "API_KEY"
+  usage_plan_id = aws_api_gateway_usage_plan.courses_usage_plan.id
 }

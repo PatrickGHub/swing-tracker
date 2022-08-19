@@ -32,6 +32,9 @@ const Courses = () => {
   //     const allCourses = await axios({
   //       method: 'POST',
   //       url: `${process.env.REACT_APP_API_GATEWAY}/courses`,
+  //       headers: {
+  //         'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
+  //       },
   //       data: {
   //         action: 'GET_ALL'
   //       }

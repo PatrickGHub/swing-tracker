@@ -8,6 +8,12 @@ const dynamo = new DynamoDB.DocumentClient()
 export const handler = async (event: APIGatewayProxyEventV2) => {
   console.log(`Event received: ${event.body}`)
   const eventBody = JSON.parse(event.body)
+  const corsHeaders = {
+    'X-Requested-With': '*',
+    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST,OPTIONS'
+  }
 
   let statusCode: number = 200
   let body: string | PromiseResult<ScanOutput, AWSError>
@@ -25,9 +31,9 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
         await dynamo.put({
           TableName: 'Courses',
           Item: {
-            Name: eventBody.name,
-            Holes: eventBody.holes,
-            Par: eventBody.par
+            name: eventBody.name,
+            holes: eventBody.holes,
+            par: eventBody.par
           }
         })
         .promise()
@@ -39,7 +45,7 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
         await dynamo.delete({
           TableName: 'Courses',
           Key: {
-            Name: eventBody.name
+            name: eventBody.name
           }
         })
         .promise()
@@ -58,10 +64,7 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
   }
 
   return {
-    headers: {
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*'
-    },
+    headers: corsHeaders,
     statusCode,
     body
   }

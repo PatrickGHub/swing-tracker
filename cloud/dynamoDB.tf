@@ -1,5 +1,5 @@
 resource "aws_dynamodb_table" "courses_table" {
-  name = "Courses"
+  name = "courses"
   billing_mode = "PROVISIONED"
   hash_key = "name"
   read_capacity = 1
@@ -12,7 +12,7 @@ resource "aws_dynamodb_table" "courses_table" {
 }
 
 resource "aws_dynamodb_table" "rounds_table" {
-  name = "Rounds"
+  name = "rounds"
   billing_mode = "PROVISIONED"
   hash_key = "id"
   read_capacity = 1

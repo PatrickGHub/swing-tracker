@@ -11,12 +11,12 @@ resource "aws_api_gateway_deployment" "swing_tracker_api_deployment" {
   }
 
   depends_on = [
-    aws_api_gateway_method.courses_method
+    aws_api_gateway_method.data_method
   ]
 
   triggers = {
     redeployment = sha1(join(",", tolist([
-      jsonencode(aws_api_gateway_integration.courses_integration)
+      jsonencode(aws_api_gateway_integration.data_integration)
     ])))
   }
 }

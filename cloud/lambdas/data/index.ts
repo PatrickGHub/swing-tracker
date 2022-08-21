@@ -8,6 +8,21 @@ const dynamo = new DynamoDB.DocumentClient()
 export const handler = async (event: APIGatewayProxyEventV2) => {
   console.log(`Event received: ${event.body}`)
   const eventBody = JSON.parse(event.body)
+
+  const item = eventBody.type === 'courses' ?
+    ({
+      name: eventBody.name,
+      holes: eventBody.holes,
+      par: eventBody.par
+    })
+    :
+    ({
+      id: eventBody.id,
+      course: eventBody.name,
+      score: eventBody.score,
+      holes: eventBody.holes
+    })
+
   const corsHeaders = {
     'X-Requested-With': '*',
     'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,x-requested-with',
@@ -22,35 +37,31 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
     switch(eventBody.action) {
       case 'GET_ALL':
         body = await dynamo.scan({
-          TableName: 'Courses'
+          TableName: eventBody.type
         })
         .promise()
         break
 
       case 'PUT':
         await dynamo.put({
-          TableName: 'Courses',
-          Item: {
-            name: eventBody.name,
-            holes: eventBody.holes,
-            par: eventBody.par
-          }
+          TableName: eventBody.type,
+          Item: item
         })
         .promise()
     
-        body = `Added course "${eventBody.name}" to database`
+        body = `Added "${eventBody.type}" item to database`
         break
 
       case 'DELETE':
         await dynamo.delete({
-          TableName: 'Courses',
+          TableName: eventBody.type,
           Key: {
             name: eventBody.name
           }
         })
         .promise()
     
-        body = `Deleted course "${eventBody.name}" from database`
+        body = `Deleted "${eventBody.type}" item from database`
         break
 
       default:

@@ -1,7 +1,7 @@
 import { clsx } from 'clsx'
 import { Link } from 'react-router-dom'
 import { ICourseData } from '../../ts/interfaces'
-import './courseCard.scss'
+import '../../scss/card.scss'
 
 interface ICourseCardProps {
   course: ICourseData,
@@ -12,7 +12,7 @@ interface ICourseCardProps {
 const CourseCard = ({ course, handleCourseSelect, selected }: ICourseCardProps) => (
   <div
     className={clsx(
-      'courseCard',
+      'card',
       selected ? 'selected': null
     )}
     data-coursename={ course.name }
@@ -22,6 +22,7 @@ const CourseCard = ({ course, handleCourseSelect, selected }: ICourseCardProps) 
     <p>{ course.holes } holes</p>
     <p>Par: { course.par }</p>
     <Link to={`/rounds?course=${course.name}`}>Rounds played</Link>
+    <Link to={`/rounds?course=${course.name}`}>Add round</Link>
   </div>
 )
 

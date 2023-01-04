@@ -1,0 +1,22 @@
+.card {
+  border: 1px solid grey;
+  border-radius: 5px;
+  box-shadow: 0px 1px 2px 0px #727eae;
+  cursor: pointer;
+  margin: .5em 0;
+  padding: .5em 1em;
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    display: block;
+    margin-top: .5em;
+  }
+}
+
+.selected {
+  background-color: #f3f3f3;
+  box-shadow: inset 0px 0px 3px 1px #727eae;
+}

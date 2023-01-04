@@ -11,3 +11,9 @@ export interface ICourseData {
   yards: number,
   holesData: IHoleData[]
 }
+
+export interface IRoundData {
+  id: number,
+  course: string,
+  score: number
+}

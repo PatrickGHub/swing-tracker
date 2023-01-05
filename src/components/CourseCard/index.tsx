@@ -22,7 +22,7 @@ const CourseCard = ({ course, handleCourseSelect, selected }: ICourseCardProps) 
     <p>{ course.holes } holes</p>
     <p>Par: { course.par }</p>
     <Link to={`/rounds?course=${course.name}`}>Rounds played</Link>
-    <Link to={`/rounds?course=${course.name}`}>Add round</Link>
+    <Link to={`/rounds?course=${course.name}&addRound=true`}>Add round</Link>
   </div>
 )
 

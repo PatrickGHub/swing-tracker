@@ -8,8 +8,10 @@ import { getAllData, getDataFilteredByCourseName } from '../utils/apiGateway'
 import { ICourseData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
+  const [loading, setLoading] = useState(true)
   const [searchParams] = useSearchParams()
   const courseParameter = searchParams.get('course')
+  const addRoundParameter = searchParams.get('addRound')
   const [rounds, setRounds] = useState([])
   const [selectedRound, setSelectedRound] = useState<IRoundData | null>()
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
@@ -47,12 +49,15 @@ const Rounds = () => {
 
     fetchCourseData()
     fetchRoundData()
+    setLoading(false)
   }, [courseParameter])
 
   return (
     <>
       {
-        rounds.length > 0 ?
+        loading ?
+          <Loader />
+        :
           (
             <div className='twoColumnGrid'>
               <div className='column1'>
@@ -76,14 +81,15 @@ const Rounds = () => {
                   />
                 }
                 {
-                  roundFormVisible &&
-                  <RoundForm courses={courses} />
+                  (roundFormVisible || addRoundParameter) &&
+                  <RoundForm
+                    courses={courses}
+                    selectedCourseName={courseParameter}
+                  />
                 }
               </div>
             </div>
           )
-        :
-          <Loader />
       }
     </>
   )

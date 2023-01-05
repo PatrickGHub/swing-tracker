@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { ICourseData, IHoleData, IHoleRoundData } from '../../ts/interfaces'
@@ -6,10 +6,11 @@ import Loader from '../Loader'
 import './roundForm.scss'
 
 interface IRoundFormProps {
-  courses: ICourseData[]
+  courses: ICourseData[],
+  selectedCourseName: string | null
 }
 
-const RoundForm = ({courses}: IRoundFormProps) => {
+const RoundForm = ({ courses, selectedCourseName }: IRoundFormProps) => {
   const [selectedCourse, setSelectedCourse] = useState<ICourseData | undefined>()
   const [holesData, setHolesData] = useState<IHoleRoundData[]>([])
 
@@ -64,6 +65,12 @@ const RoundForm = ({courses}: IRoundFormProps) => {
     }
   }
 
+  useEffect(() => {
+    if (selectedCourseName) {
+      setSelectedCourse(courses.find((course) => course.name === selectedCourseName))
+    }
+  }, [selectedCourseName, courses])
+
   return (
     <>
       {
@@ -74,7 +81,7 @@ const RoundForm = ({courses}: IRoundFormProps) => {
             <select
               id='course'
               onChange={handleCourseSelect}
-              defaultValue='Select a course'
+              defaultValue={selectedCourseName || 'Select a course'}
             >
               <option disabled>Select a course</option>
               {courses.map((course) => (

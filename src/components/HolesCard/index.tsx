@@ -2,12 +2,12 @@ import { IHoleData } from '../../ts/interfaces'
 import './holesCard.scss'
 
 interface IHolesCardProps {
-  holes: IHoleData[]
+  holes: string
 }
 
 const HolesCard = ({ holes }: IHolesCardProps) => (
   <div className='holesCard'>
-    {holes.map((hole) => (
+    {JSON.parse(holes).map((hole: IHoleData) => (
       <div key={hole.hole} className='hole'>
         <span>Hole {hole.hole}</span>
         <span>Yards: {hole.yards}</span>
@@ -16,5 +16,4 @@ const HolesCard = ({ holes }: IHolesCardProps) => (
     ))}
   </div>
 )
-
 export default HolesCard

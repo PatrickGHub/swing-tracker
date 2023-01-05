@@ -9,7 +9,7 @@ export interface ICourseData {
   holes: number,
   par: number,
   yards: number,
-  holesData: IHoleData[]
+  holesData: string
 }
 
 export interface IRoundData {

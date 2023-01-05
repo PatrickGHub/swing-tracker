@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
-import axios from 'axios'
 import { ICourseData } from '../ts/interfaces'
+import { getAllCourses } from '../utils/apiGateway'
 import Loader from '../components/Loader'
 import CourseCard from '../components/CourseCard'
 import CourseForm from '../components/CourseForm'
@@ -28,23 +28,12 @@ const Courses = () => {
   }
 
   useEffect(() => {
-    const getAllCourses = async () => {
-      const allCourses = await axios({
-        method: 'POST',
-        url: `${process.env.REACT_APP_API_GATEWAY}/data`,
-        headers: {
-          'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
-        },
-        data: {
-          action: 'GET_ALL',
-          type: 'courses'
-        }
-      })
-
+    const fetchCourseData = async() => {
+      const allCourses = await getAllCourses()
       setCourses(allCourses.data.Items)
     }
 
-    getAllCourses()
+    fetchCourseData()
   }, [])
 
   // useEffect(() => {

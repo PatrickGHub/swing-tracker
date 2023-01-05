@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
+import { getAllCourses } from '../../utils/apiGateway'
 import { ICourseData, IHoleData } from '../../ts/interfaces'
 import './roundForm.scss'
 
@@ -11,23 +11,12 @@ const RoundForm = () => {
   const courseInput = useRef<HTMLInputElement | null>(null)
 
   useEffect(() => {
-    const getAllCourses = async () => {
-      const allCourses = await axios({
-        method: 'POST',
-        url: `${process.env.REACT_APP_API_GATEWAY}/data`,
-        headers: {
-          'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
-        },
-        data: {
-          action: 'GET_ALL',
-          type: 'courses'
-        }
-      })
-
+    const fetchCourseData = async() => {
+      const allCourses = await getAllCourses()
       setCourses(allCourses.data.Items)
     }
 
-    getAllCourses()
+    fetchCourseData()
   }, [])
 
   const handleSubmit = async (event: any) => {

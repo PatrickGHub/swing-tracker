@@ -4,7 +4,8 @@ import axios from 'axios'
 import Loader from '../components/Loader'
 import RoundCard from '../components/RoundCard'
 import RoundForm from '../components/RoundForm'
-import { IRoundData } from '../ts/interfaces'
+import { getAllCourses } from '../utils/apiGateway'
+import { ICourseData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
   const [searchParams] = useSearchParams()
@@ -12,6 +13,7 @@ const Rounds = () => {
   const [rounds, setRounds] = useState([])
   const [selectedRound, setSelectedRound] = useState<IRoundData | null>()
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
+  const [courses, setCourses] = useState<ICourseData[]>([])
 
   const handleRoundSelect = (event: SyntheticEvent<HTMLButtonElement>) => {
     setRoundFormVisible(false)
@@ -47,6 +49,15 @@ const Rounds = () => {
     getRounds()
   }, [])
 
+  useEffect(() => {
+    const fetchCourseData = async() => {
+      const allCourses = await getAllCourses()
+      setCourses(allCourses.data.Items)
+    }
+
+    fetchCourseData()
+  }, [])
+
   return (
     <>
       <p>Rounds played</p>
@@ -70,7 +81,7 @@ const Rounds = () => {
               <div className='column2'>
                 {
                   roundFormVisible &&
-                  <RoundForm />
+                  <RoundForm courses={courses} />
                 }
               </div>
             </div>

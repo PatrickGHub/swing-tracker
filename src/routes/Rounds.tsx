@@ -37,7 +37,11 @@ const Rounds = () => {
     }
 
     const fetchRoundData = async() => {
-      const allRounds = await getDataFilteredByCourseName('rounds', courseParameter)
+
+      const allRounds = courseParameter ?
+        await getDataFilteredByCourseName('rounds', courseParameter)
+        :
+        await getAllData('rounds')
       setRounds(allRounds.data.Items)
     }
 

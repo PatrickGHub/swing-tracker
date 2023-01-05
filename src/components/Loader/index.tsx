@@ -1,8 +1,8 @@
-import { Triangle } from 'react-loader-spinner'
+import { Oval } from 'react-loader-spinner'
 import './loader.scss'
 
 const Loader = () => (
-  <Triangle
+  <Oval
     height='150'
     width='150'
     wrapperClass='loader'

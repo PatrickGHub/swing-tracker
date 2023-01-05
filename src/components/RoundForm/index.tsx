@@ -56,8 +56,9 @@ const RoundForm = ({courses}: IRoundFormProps) => {
             <select
               id='course'
               onChange={handleCourseSelect}
+              defaultValue='Select a course'
             >
-              <option selected disabled>Select a course</option>
+              <option disabled>Select a course</option>
               {courses.map((course) => (
                 <option
                   key={course.name}

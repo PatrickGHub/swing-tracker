@@ -5,7 +5,7 @@ import Loader from '../components/Loader'
 import CourseCard from '../components/CourseCard'
 import CourseForm from '../components/CourseForm'
 import HolesCard from '../components/HolesCard'
-import '../scss/courses.scss'
+// import '../scss/courses.scss'
 
 const Courses = () => {
   const [courses, setCourses] = useState<ICourseData[]>([])
@@ -152,7 +152,7 @@ const Courses = () => {
       {
         courses.length > 0 ?
           (
-            <div className='coursesRoute'>
+            <div className='twoColumnGrid'>
               <div className='column1'>
                 <button onClick={handlecourseForm}>Add a course +</button>
                 {(courses.map((course: ICourseData) => (
@@ -168,7 +168,7 @@ const Courses = () => {
               <div className='column2'>
                 {
                   selectedCourse &&
-                  <HolesCard holes={selectedCourse.holesData} />
+                  <HolesCard holes={selectedCourse.holesData} existingRound={false}/>
                 }
                 {
                   courseFormVisible &&

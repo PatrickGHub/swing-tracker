@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import axios from 'axios'
+import HolesCard from '../components/HolesCard'
 import Loader from '../components/Loader'
 import RoundCard from '../components/RoundCard'
 import RoundForm from '../components/RoundForm'
@@ -25,8 +25,9 @@ const Rounds = () => {
     setSelectedRound(rounds.find((round: IRoundData) => round.id === clickedRoundId))
   }
 
-  const handlecourseForm = () => {
+  const handleRoundForm = () => {
     setRoundFormVisible(true)
+    setSelectedRound(null)
   }
 
   useEffect(() => {
@@ -46,14 +47,12 @@ const Rounds = () => {
 
   return (
     <>
-      <p>Rounds played</p>
-      <p>{ course || 'All courses' }</p>
-      <button onClick={handlecourseForm}>Add a round +</button>
       {
         rounds.length > 0 ?
           (
-            <div className='coursesRoute'>
+            <div className='twoColumnGrid'>
               <div className='column1'>
+              <button onClick={handleRoundForm}>Add a round +</button>
                 {(rounds.map((round: IRoundData) => (
                   <RoundCard
                     key={round.id}
@@ -65,6 +64,13 @@ const Rounds = () => {
               </div>
 
               <div className='column2'>
+                {
+                  selectedRound &&
+                  <HolesCard
+                    holes={selectedRound.holesData}
+                    existingRound={true}
+                  />
+                }
                 {
                   roundFormVisible &&
                   <RoundForm courses={courses} />

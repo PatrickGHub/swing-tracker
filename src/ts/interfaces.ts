@@ -4,6 +4,12 @@ export interface IHoleData {
   par: number
 }
 
+export interface IHoleRoundData {
+  hole: number,
+  shots: number,
+  par: number
+}
+
 export interface ICourseData {
   name: string,
   holes: number,
@@ -15,5 +21,6 @@ export interface ICourseData {
 export interface IRoundData {
   id: string,
   course: string,
+  holesData: string,
   score: number
 }

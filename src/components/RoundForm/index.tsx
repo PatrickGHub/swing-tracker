@@ -57,6 +57,7 @@ const RoundForm = ({courses}: IRoundFormProps) => {
               id='course'
               onChange={handleCourseSelect}
             >
+              <option selected disabled>Select a course</option>
               {courses.map((course) => (
                 <option
                   key={course.name}
@@ -99,27 +100,3 @@ const RoundForm = ({courses}: IRoundFormProps) => {
 }
 
 export default RoundForm
-
-
-// [
-//   (
-//     { hole: 1, yards: null, par: null },
-//     { hole: 2, yards: null, par: null },
-//     { hole: 3, yards: null, par: null },
-//     { hole: 4, yards: null, par: null },
-//     { hole: 5, yards: null, par: null },
-//     { hole: 6, yards: null, par: null },
-//     { hole: 7, yards: null, par: null },
-//     { hole: 8, yards: null, par: null },
-//     { hole: 9, yards: null, par: null },
-//     { hole: 10, yards: null, par: null },
-//     { hole: 11, yards: null, par: null },
-//     { hole: 12, yards: null, par: null },
-//     { hole: 13, yards: null, par: null },
-//     { hole: 14, yards: null, par: null },
-//     { hole: 15, yards: null, par: null },
-//     { hole: 16, yards: null, par: null },
-//     { hole: 17, yards: null, par: null },
-//     { hole: 18, yards: null, par: null }
-//   )
-// ]

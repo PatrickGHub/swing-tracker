@@ -21,6 +21,7 @@ export interface ICourseData {
 export interface IRoundData {
   id: string,
   course: string,
+  date: Date,
   holesData: string,
   score: number
 }

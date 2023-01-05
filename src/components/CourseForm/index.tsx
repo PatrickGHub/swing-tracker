@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { FormEvent, useRef } from 'react'
 import axios from 'axios'
 import './courseForm.scss'
 
@@ -7,7 +7,7 @@ const CourseForm = () => {
   const holesInput = useRef<HTMLInputElement | null >(null)
   const parInput = useRef<HTMLInputElement | null>(null)
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const data = {

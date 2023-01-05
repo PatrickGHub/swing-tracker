@@ -15,7 +15,7 @@ const Rounds = () => {
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
   const [courses, setCourses] = useState<ICourseData[]>([])
 
-  const handleRoundSelect = (event: SyntheticEvent<HTMLButtonElement>) => {
+  const handleRoundSelect = (event: SyntheticEvent<HTMLButtonElement, Event>) => {
     setRoundFormVisible(false)
     const clickedRoundId = event.currentTarget.getAttribute('data-roundid')
     if (clickedRoundId === selectedRound) {

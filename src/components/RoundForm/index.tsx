@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { ICourseData, IHoleData, IHoleRoundData } from '../../ts/interfaces'
@@ -41,8 +41,8 @@ const RoundForm = ({courses}: IRoundFormProps) => {
     })
   }
 
-  const handleCourseSelect = (e: any) => {
-    setSelectedCourse(courses.find((course) => course.name === e.target.value))
+  const handleCourseSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCourse(courses.find((course) => course.name === event.target.value))
   }
 
   const handleHolesDataChange = (e: any) => {

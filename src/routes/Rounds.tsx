@@ -30,21 +30,18 @@ const Rounds = () => {
   }
 
   useEffect(() => {
-    const fetchRoundData = async() => {
-      const allRounds = await getAllData('rounds')
-      setRounds(allRounds.data.Items)
-    }
-
-    fetchRoundData()
-  }, [])
-
-  useEffect(() => {
     const fetchCourseData = async() => {
       const allCourses = await getAllData('courses')
       setCourses(allCourses.data.Items)
     }
 
+    const fetchRoundData = async() => {
+      const allRounds = await getAllData('rounds')
+      setRounds(allRounds.data.Items)
+    }
+
     fetchCourseData()
+    fetchRoundData()
   }, [])
 
   return (

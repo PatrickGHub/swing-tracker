@@ -43,6 +43,20 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
         .promise()
         break
 
+        case 'GET_FILTERED_BY_COURSE_NAME':
+        body = await dynamo.scan({
+          TableName: eventBody.type,
+          FilterExpression: '#course = :course',
+          ExpressionAttributeNames: {
+              '#course': 'course',
+          },
+          ExpressionAttributeValues: {
+              ':course': eventBody.courseName,
+          }
+        })
+        .promise()
+        break
+
       case 'PUT':
         await dynamo.put({
           TableName: eventBody.type,

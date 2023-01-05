@@ -4,12 +4,12 @@ import HolesCard from '../components/HolesCard'
 import Loader from '../components/Loader'
 import RoundCard from '../components/RoundCard'
 import RoundForm from '../components/RoundForm'
-import { getAllData } from '../utils/apiGateway'
+import { getAllData, getDataFilteredByCourseName } from '../utils/apiGateway'
 import { ICourseData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
   const [searchParams] = useSearchParams()
-  const course = searchParams.get('course')
+  const courseParameter = searchParams.get('course')
   const [rounds, setRounds] = useState([])
   const [selectedRound, setSelectedRound] = useState<IRoundData | null>()
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
@@ -37,7 +37,7 @@ const Rounds = () => {
     }
 
     const fetchRoundData = async() => {
-      const allRounds = await getAllData('rounds')
+      const allRounds = await getDataFilteredByCourseName('rounds', courseParameter)
       setRounds(allRounds.data.Items)
     }
 

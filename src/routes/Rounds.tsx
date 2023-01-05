@@ -10,12 +10,12 @@ const Rounds = () => {
   const [searchParams] = useSearchParams()
   const course = searchParams.get('course')
   const [rounds, setRounds] = useState([])
-  const [selectedRound, setSelectedRound] = useState<Number | null>()
+  const [selectedRound, setSelectedRound] = useState<IRoundData | null>()
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
 
   const handleRoundSelect = (event: SyntheticEvent<HTMLButtonElement>) => {
     setRoundFormVisible(false)
-    const clickedRoundId = Number(event.currentTarget.getAttribute('data-roundid'))
+    const clickedRoundId = event.currentTarget.getAttribute('data-roundid')
     if (clickedRoundId === selectedRound) {
       return setSelectedRound(null)
     }
@@ -62,7 +62,7 @@ const Rounds = () => {
                     key={round.id}
                     round={round}
                     handleRoundSelect={handleRoundSelect}
-                    selected={selectedRound === round.id}
+                    selected={selectedRound?.id === round.id}
                   />
                 )))}
               </div>

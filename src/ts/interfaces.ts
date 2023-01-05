@@ -13,7 +13,7 @@ export interface ICourseData {
 }
 
 export interface IRoundData {
-  id: number,
+  id: string,
   course: string,
   score: number
 }

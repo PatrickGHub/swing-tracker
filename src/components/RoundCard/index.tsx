@@ -5,7 +5,7 @@ import { IRoundData } from '../../ts/interfaces'
 interface IRoundCardProps {
   round: IRoundData
   handleRoundSelect: any
-  selected: any
+  selected: boolean
 }
 
 const RoundCard = ({ round, handleRoundSelect, selected }: IRoundCardProps) => (

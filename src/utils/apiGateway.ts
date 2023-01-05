@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const getAllCourses = async () => (
+export const getAllData = async (type: string) => (
   await axios({
     method: 'POST',
     url: `${process.env.REACT_APP_API_GATEWAY}/data`,
@@ -9,7 +9,7 @@ export const getAllCourses = async () => (
     },
     data: {
       action: 'GET_ALL',
-      type: 'courses'
+      type
     }
   })
 )

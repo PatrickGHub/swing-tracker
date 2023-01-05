@@ -1,6 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
 import { ICourseData } from '../ts/interfaces'
-import { getAllCourses } from '../utils/apiGateway'
+import { getAllData } from '../utils/apiGateway'
 import Loader from '../components/Loader'
 import CourseCard from '../components/CourseCard'
 import CourseForm from '../components/CourseForm'
@@ -29,7 +29,7 @@ const Courses = () => {
 
   useEffect(() => {
     const fetchCourseData = async() => {
-      const allCourses = await getAllCourses()
+      const allCourses = await getAllData('courses')
       setCourses(allCourses.data.Items)
     }
 

@@ -4,7 +4,7 @@ import axios from 'axios'
 import Loader from '../components/Loader'
 import RoundCard from '../components/RoundCard'
 import RoundForm from '../components/RoundForm'
-import { getAllCourses } from '../utils/apiGateway'
+import { getAllData } from '../utils/apiGateway'
 import { ICourseData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
@@ -30,28 +30,17 @@ const Rounds = () => {
   }
 
   useEffect(() => {
-    const getRounds = async () => {
-      const allRounds = await axios({
-        method: 'POST',
-        url: `${process.env.REACT_APP_API_GATEWAY}/data`,
-        headers: {
-          'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
-        },
-        data: {
-          action: 'GET_ALL',
-          type: 'rounds'
-        }
-      })
-
+    const fetchRoundData = async() => {
+      const allRounds = await getAllData('rounds')
       setRounds(allRounds.data.Items)
     }
 
-    getRounds()
+    fetchRoundData()
   }, [])
 
   useEffect(() => {
     const fetchCourseData = async() => {
-      const allCourses = await getAllCourses()
+      const allCourses = await getAllData('courses')
       setCourses(allCourses.data.Items)
     }
 

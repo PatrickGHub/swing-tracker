@@ -47,7 +47,7 @@ const Rounds = () => {
 
     fetchCourseData()
     fetchRoundData()
-  }, [])
+  }, [courseParameter])
 
   return (
     <>

@@ -20,6 +20,7 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
     ({
       id: eventBody.id,
       course: eventBody.course,
+      date: eventBody.date,
       par: eventBody.par,
       score: eventBody.score,
       holes: eventBody.holes,

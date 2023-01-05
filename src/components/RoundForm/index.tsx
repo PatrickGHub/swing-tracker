@@ -1,8 +1,10 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import DatePicker from 'react-datepicker'
 import { ICourseData, IHoleData, IHoleRoundData } from '../../ts/interfaces'
 import Loader from '../Loader'
+import 'react-datepicker/dist/react-datepicker.css'
 import './roundForm.scss'
 
 interface IRoundFormProps {
@@ -12,6 +14,7 @@ interface IRoundFormProps {
 
 const RoundForm = ({ courses, selectedCourseName }: IRoundFormProps) => {
   const [selectedCourse, setSelectedCourse] = useState<ICourseData | undefined>()
+  const [roundPlayedDate, setRoundPlayedDate] = useState(new Date())
   const [holesData, setHolesData] = useState<IHoleRoundData[]>([])
 
   const handleSubmit = async (event: any) => {
@@ -24,14 +27,13 @@ const RoundForm = ({ courses, selectedCourseName }: IRoundFormProps) => {
       type: 'rounds',
       id: uuidv4(),
       course: selectedCourse?.name,
+      date: roundPlayedDate,
       par: selectedCourse?.par,
       score,
       holes: selectedCourse?.holes,
       holesData: JSON.stringify(holesData)
     }
     
-    console.log(JSON.stringify(data, null, 2))
-
     await axios({
       method: 'POST',
       url: `${process.env.REACT_APP_API_GATEWAY}/data`,
@@ -93,6 +95,13 @@ const RoundForm = ({ courses, selectedCourseName }: IRoundFormProps) => {
                 </option>
               ))}
             </select>
+
+            <label>Date Played</label>
+            <DatePicker
+              dateFormat='dd/MM/yyyy'
+              selected={roundPlayedDate}
+              onChange={(date: Date) => setRoundPlayedDate(date)}
+            />
 
             {
               selectedCourse &&

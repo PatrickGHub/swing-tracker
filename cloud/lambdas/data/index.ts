@@ -19,9 +19,11 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
     :
     ({
       id: eventBody.id,
-      course: eventBody.name,
+      course: eventBody.course,
+      par: eventBody.par,
       score: eventBody.score,
-      holes: eventBody.holes
+      holes: eventBody.holes,
+      holesData: eventBody.holesData
     })
 
   const corsHeaders = {

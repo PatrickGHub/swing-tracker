@@ -1,5 +1,7 @@
-import { useRef, useState } from 'react'
-import { ICourseData, IHoleData } from '../../ts/interfaces'
+import { useState } from 'react'
+import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
+import { ICourseData, IHoleData, IHoleRoundData } from '../../ts/interfaces'
 import Loader from '../Loader'
 import './roundForm.scss'
 
@@ -9,41 +11,57 @@ interface IRoundFormProps {
 
 const RoundForm = ({courses}: IRoundFormProps) => {
   const [selectedCourse, setSelectedCourse] = useState<ICourseData | undefined>()
-  const courseNameInput = useRef<HTMLInputElement | null>(null)
-  const holesInput = useRef<HTMLInputElement | null >(null)
-  const courseInput = useRef<HTMLInputElement | null>(null)
+  const [holesData, setHolesData] = useState<IHoleRoundData[]>([])
 
   const handleSubmit = async (event: any) => {
     event.preventDefault()
 
-  //   const data = {
-  //     action: 'PUT',
-  //     type: 'rounds',
-  //     name: courseNameInput.current?.value,
-  //     holes: Number(holesInput.current?.value),
-  //     par: Number(parInput.current?.value),
-  //     yards: null,
-  //     holesData: JSON.stringify([...Array(Number(holesInput.current?.value))].map((_, i) => (
-  //       {
-  //         hole: i + 1,
-  //         yards: null,
-  //         par: null
-  //       }
-  //     )))
-  //   }
+    const score = holesData.map(hole => hole.shots).reduce((a, b) => a + b)
 
-  //   await axios({
-  //     method: 'POST',
-  //     url: `${process.env.REACT_APP_API_GATEWAY}/data`,
-  //     headers: {
-  //       'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
-  //     },
-  //     data
-  //   })
+    const data = {
+      action: 'PUT',
+      type: 'rounds',
+      id: uuidv4(),
+      course: selectedCourse?.name,
+      par: selectedCourse?.par,
+      score,
+      holes: selectedCourse?.holes,
+      holesData: JSON.stringify(holesData)
+    }
+    
+    console.log(JSON.stringify(data, null, 2))
+
+    await axios({
+      method: 'POST',
+      url: `${process.env.REACT_APP_API_GATEWAY}/data`,
+      headers: {
+        'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
+      },
+      data
+    })
   }
 
   const handleCourseSelect = (e: any) => {
     setSelectedCourse(courses.find((course) => course.name === e.target.value))
+  }
+
+  const handleHolesDataChange = (e: any) => {
+    const hole = e.target.getAttribute('data-hole')
+    const par = e.target.getAttribute('data-par')
+    const shots = e.target.value
+
+    const existingObject = holesData.find((object) => object.hole === hole)
+
+    if (!existingObject) {
+      setHolesData([...holesData, {
+        hole,
+        par: Number(par),
+        shots: Number(shots)
+      }])
+    } else {
+      existingObject.shots = shots
+      setHolesData(holesData)
+    }
   }
 
   return (
@@ -84,6 +102,9 @@ const RoundForm = ({courses}: IRoundFormProps) => {
                       type="number"
                       key={`hole${hole.hole}Input`}
                       id={`hole${hole.hole}`}
+                      data-hole={hole.hole}
+                      data-par={hole.par}
+                      onChange={handleHolesDataChange}
                     />
                   </div>
                 )

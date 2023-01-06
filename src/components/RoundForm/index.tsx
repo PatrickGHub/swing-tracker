@@ -50,16 +50,16 @@ const RoundForm = ({ courses, selectedCourseName }: IRoundFormProps) => {
 
   const handleHolesDataChange = (e: any) => {
     const hole = e.target.getAttribute('data-hole')
-    const par = e.target.getAttribute('data-par')
-    const shots = e.target.value
+    const par = +e.target.getAttribute('data-par')
+    const shots = +e.target.value
 
     const existingObject = holesData.find((object) => object.hole === hole)
 
     if (!existingObject) {
       setHolesData([...holesData, {
         hole,
-        par: Number(par),
-        shots: Number(shots)
+        par: par,
+        shots: shots
       }])
     } else {
       existingObject.shots = shots

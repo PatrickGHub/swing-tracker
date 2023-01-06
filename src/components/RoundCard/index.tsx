@@ -18,6 +18,7 @@ const RoundCard = ({ round, handleRoundSelect, selected }: IRoundCardProps) => (
     onClick={(e) => handleRoundSelect(e) }
   >
     <p>Course: { round.course }</p>
+    <p>Date: { new Date(round.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) }</p>
     <p>Score: { round.score }</p>
   </div>
 )

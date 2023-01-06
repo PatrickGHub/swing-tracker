@@ -1,4 +1,3 @@
-import { IHoleData, IHoleRoundData } from '../../ts/interfaces'
 import './holesCard.scss'
 
 interface IHolesCardProps {

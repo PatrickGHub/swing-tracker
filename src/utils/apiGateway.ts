@@ -33,3 +33,21 @@ export const getDataFilteredByCourseName = async (
     }
   })
 )
+
+export const deleteItem = async (
+  type: string,
+  itemId: string | null = null
+) => (
+  await axios({
+    method: 'POST',
+    url: `${process.env.REACT_APP_API_GATEWAY}/data`,
+    headers: {
+      'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
+    },
+    data: {
+      action: 'DELETE',
+      type,
+      id: itemId
+    }
+  })
+)

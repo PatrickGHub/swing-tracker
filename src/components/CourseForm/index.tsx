@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react'
 import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import { IHoleData } from '../../ts/interfaces'
 import './courseForm.scss'
 
@@ -14,6 +15,7 @@ const CourseForm = () => {
     const data = {
       action: 'PUT',
       type: 'courses',
+      id: uuidv4(),
       name: courseNameInput.current?.value,
       holes: numberOfHoles,
       par: holesData.map(hole => hole.par).reduce((a, b) => a + b),

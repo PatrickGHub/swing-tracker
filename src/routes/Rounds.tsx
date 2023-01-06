@@ -4,7 +4,7 @@ import HolesCard from '../components/HolesCard'
 import Loader from '../components/Loader'
 import RoundCard from '../components/RoundCard'
 import RoundForm from '../components/RoundForm'
-import { getAllData, getDataFilteredByCourseName } from '../utils/apiGateway'
+import { getAllData, getDataFilteredByCourseName, deleteItem } from '../utils/apiGateway'
 import { ICourseData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
@@ -25,6 +25,10 @@ const Rounds = () => {
     }
   
     setSelectedRound(rounds.find((round: IRoundData) => round.id === clickedRoundId))
+  }
+
+  const handleDeleteRound = async (roundId: string) => {
+    await deleteItem('rounds', roundId)
   }
 
   const handleRoundForm = () => {
@@ -68,6 +72,7 @@ const Rounds = () => {
                     round={round}
                     handleRoundSelect={handleRoundSelect}
                     selected={selectedRound?.id === round.id}
+                    handleDeleteRound={handleDeleteRound}
                   />
                 )))}
               </div>

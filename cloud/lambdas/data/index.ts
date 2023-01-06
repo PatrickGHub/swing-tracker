@@ -11,6 +11,7 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
 
   const item = eventBody.type === 'courses' ?
     ({
+      id: eventBody.id,
       name: eventBody.name,
       holes: eventBody.holes,
       holesData: eventBody.holesData,
@@ -74,7 +75,8 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
         await dynamo.delete({
           TableName: eventBody.type,
           Key: {
-            name: eventBody.name
+            // Key: {id: eventBody.id}
+            id: eventBody.id
           }
         })
         .promise()

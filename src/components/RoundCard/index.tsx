@@ -1,14 +1,17 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTrashCan } from "@fortawesome/free-solid-svg-icons"
 import { clsx } from 'clsx'
-import '../../scss/card.scss'
 import { IRoundData } from '../../ts/interfaces'
+import '../../scss/card.scss'
 
 interface IRoundCardProps {
   round: IRoundData
   handleRoundSelect: any
   selected: boolean
+  handleDeleteRound: any
 }
 
-const RoundCard = ({ round, handleRoundSelect, selected }: IRoundCardProps) => (
+const RoundCard = ({ round, handleRoundSelect, selected, handleDeleteRound }: IRoundCardProps) => (
   <div
     className={clsx(
       'card',
@@ -20,6 +23,9 @@ const RoundCard = ({ round, handleRoundSelect, selected }: IRoundCardProps) => (
     <p>Course: { round.course }</p>
     <p>Date: { new Date(round.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) }</p>
     <p>Score: { round.score }</p>
+    <p onClick={() => handleDeleteRound(round.id)}>
+      <FontAwesomeIcon icon={faTrashCan} />
+    </p>
   </div>
 )
 

@@ -1,10 +1,18 @@
 import { Oval } from 'react-loader-spinner'
 import './loader.scss'
 
-const Loader = () => (
+interface ILoaderProps {
+  height?: number
+  width?: number
+}
+
+const Loader = ({
+  height = 150, 
+  width = 150
+}: ILoaderProps) => (
   <Oval
-    height='150'
-    width='150'
+    height={height}
+    width={width}
     wrapperClass='loader'
   />
 )

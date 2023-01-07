@@ -10,7 +10,7 @@ import { getAllData, getDataFilteredByCourseName, deleteItem } from '../utils/ap
 import { ICourseData, IHoleRoundData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState<boolean>(true)
   const [searchParams] = useSearchParams()
   const courseParameter = searchParams.get('course')
   const addRoundParameter = searchParams.get('addRound')
@@ -20,7 +20,8 @@ const Rounds = () => {
   const [courses, setCourses] = useState<ICourseData[]>([])
   const [selectedFormCourse, setSelectedFormCourse] = useState<ICourseData | undefined>()
   const [formHolesData, setFormHolesData] = useState<IHoleRoundData[]>([])
-  const [formRoundPlayedDate, setFormRoundPlayedDate] = useState(new Date())
+  const [formRoundPlayedDate, setFormRoundPlayedDate] = useState<Date>(new Date())
+  const [formSubmitting, setFormSubmitting] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchCourseData = async() => {
@@ -88,6 +89,7 @@ const Rounds = () => {
   }
 
   const handleFormSubmit = async (event: any) => {
+    setFormSubmitting(true)
     event.preventDefault()
 
     const score = formHolesData.map(hole => hole.shots).reduce((a, b) => a + b)
@@ -103,7 +105,7 @@ const Rounds = () => {
       holes: selectedFormCourse?.holes,
       holesData: JSON.stringify(formHolesData)
     }
-
+    
     await axios({
       method: 'POST',
       url: `${process.env.REACT_APP_API_GATEWAY}/data`,
@@ -112,6 +114,9 @@ const Rounds = () => {
       },
       data
     })
+
+    setRoundFormVisible(false)
+    setFormSubmitting(false)
   }
 
   return (
@@ -154,6 +159,7 @@ const Rounds = () => {
                     formRoundPlayedDate={formRoundPlayedDate}
                     setFormRoundPlayedDate={setFormRoundPlayedDate}
                     handleFormSubmit={handleFormSubmit}
+                    formSubmitting={formSubmitting}
                   />
                 }
               </div>

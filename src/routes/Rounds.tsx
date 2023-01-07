@@ -48,7 +48,10 @@ const Rounds = () => {
         await getDataFilteredByCourseName('rounds', courseParameter)
         :
         await getAllData('rounds')
-      setRounds(allRounds.data.Items)
+      
+      setRounds(allRounds.data.Items.sort(
+        (a: IRoundData, b: IRoundData) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      ))
     }
 
     fetchCourseData()

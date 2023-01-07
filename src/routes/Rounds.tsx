@@ -1,11 +1,13 @@
-import { SyntheticEvent, useEffect, useState } from 'react'
+import { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import axios from 'axios'
+import { v4 as uuidv4 } from 'uuid'
 import HolesCard from '../components/HolesCard'
 import Loader from '../components/Loader'
 import RoundCard from '../components/RoundCard'
 import RoundForm from '../components/RoundForm'
 import { getAllData, getDataFilteredByCourseName, deleteItem } from '../utils/apiGateway'
-import { ICourseData, IRoundData } from '../ts/interfaces'
+import { ICourseData, IHoleRoundData, IRoundData } from '../ts/interfaces'
 
 const Rounds = () => {
   const [loading, setLoading] = useState(true)
@@ -16,25 +18,9 @@ const Rounds = () => {
   const [selectedRound, setSelectedRound] = useState<IRoundData | null>()
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
   const [courses, setCourses] = useState<ICourseData[]>([])
-
-  const handleRoundSelect = (event: SyntheticEvent<HTMLButtonElement, Event>) => {
-    setRoundFormVisible(false)
-    const clickedRoundId = event.currentTarget.getAttribute('data-roundid')
-    if (clickedRoundId === selectedRound) {
-      return setSelectedRound(null)
-    }
-  
-    setSelectedRound(rounds.find((round: IRoundData) => round.id === clickedRoundId))
-  }
-
-  const handleDeleteRound = async (roundId: string) => {
-    await deleteItem('rounds', roundId)
-  }
-
-  const handleRoundForm = () => {
-    setRoundFormVisible(true)
-    setSelectedRound(null)
-  }
+  const [selectedFormCourse, setSelectedFormCourse] = useState<ICourseData | undefined>()
+  const [formHolesData, setFormHolesData] = useState<IHoleRoundData[]>([])
+  const [formRoundPlayedDate, setFormRoundPlayedDate] = useState(new Date())
 
   useEffect(() => {
     const fetchCourseData = async() => {
@@ -58,6 +44,75 @@ const Rounds = () => {
     fetchRoundData()
     setLoading(false)
   }, [courseParameter])
+
+  const handleRoundSelect = (event: SyntheticEvent<HTMLButtonElement, Event>) => {
+    setRoundFormVisible(false)
+    const clickedRoundId = event.currentTarget.getAttribute('data-roundid')
+    if (clickedRoundId === selectedRound) {
+      return setSelectedRound(null)
+    }
+  
+    setSelectedRound(rounds.find((round: IRoundData) => round.id === clickedRoundId))
+  }
+
+  const handleDeleteRound = async (roundId: string) => {
+    await deleteItem('rounds', roundId)
+  }
+
+  const handleRoundForm = () => {
+    setRoundFormVisible(true)
+    setSelectedRound(null)
+  }
+
+  const handleFormCourseSelect = (event: ChangeEvent<HTMLSelectElement>) => {
+    setSelectedFormCourse(courses.find((course) => course.name === event.target.value))
+  }
+
+  const handleFormHolesDataChange = (e: any) => {
+    const hole = e.target.getAttribute('data-hole')
+    const par = +e.target.getAttribute('data-par')
+    const shots = +e.target.value
+
+    const existingObject = formHolesData.find((object) => object.hole === hole)
+
+    if (!existingObject) {
+      setFormHolesData([...formHolesData, {
+        hole,
+        par: par,
+        shots: shots
+      }])
+    } else {
+      existingObject.shots = shots
+      setFormHolesData(formHolesData)
+    }
+  }
+
+  const handleFormSubmit = async (event: any) => {
+    event.preventDefault()
+
+    const score = formHolesData.map(hole => hole.shots).reduce((a, b) => a + b)
+
+    const data = {
+      action: 'PUT',
+      type: 'rounds',
+      id: uuidv4(),
+      course: selectedFormCourse?.name,
+      date: formRoundPlayedDate,
+      par: selectedFormCourse?.par,
+      score,
+      holes: selectedFormCourse?.holes,
+      holesData: JSON.stringify(formHolesData)
+    }
+
+    await axios({
+      method: 'POST',
+      url: `${process.env.REACT_APP_API_GATEWAY}/data`,
+      headers: {
+        'x-api-key': `${process.env.REACT_APP_COURSES_API_KEY}`
+      },
+      data
+    })
+  }
 
   return (
     <>
@@ -93,6 +148,12 @@ const Rounds = () => {
                   <RoundForm
                     courses={courses}
                     selectedCourseName={courseParameter}
+                    selectedFormCourse={selectedFormCourse}
+                    handleFormCourseSelect={handleFormCourseSelect}
+                    handleFormHolesDataChange={handleFormHolesDataChange}
+                    formRoundPlayedDate={formRoundPlayedDate}
+                    setFormRoundPlayedDate={setFormRoundPlayedDate}
+                    handleFormSubmit={handleFormSubmit}
                   />
                 }
               </div>

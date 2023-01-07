@@ -3,16 +3,17 @@ import { ICourseData, IHoleData } from '../../ts/interfaces'
 import Loader from '../Loader'
 import 'react-datepicker/dist/react-datepicker.css'
 import './roundForm.scss'
+import { ChangeEvent } from 'react'
 
 interface IRoundFormProps {
   courses: ICourseData[],
   selectedCourseName: string | null
   selectedFormCourse: ICourseData | undefined
-  handleFormCourseSelect: any
-  handleFormHolesDataChange: any
+  handleFormCourseSelect: (event: ChangeEvent<HTMLSelectElement>) => void
+  handleFormHolesDataChange: (e: any) => void
   formRoundPlayedDate: Date
-  setFormRoundPlayedDate: any
-  handleFormSubmit: any
+  setFormRoundPlayedDate: (value: Date) => void
+  handleFormSubmit: (e: any) => void
 }
 
 const RoundForm = ({

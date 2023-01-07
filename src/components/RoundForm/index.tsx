@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker'
 import { ICourseData, IHoleData } from '../../ts/interfaces'
 import Loader from '../Loader'
 import 'react-datepicker/dist/react-datepicker.css'
-import './roundForm.scss'
+import '../../scss/form.scss'
 
 interface IRoundFormProps {
   courses: ICourseData[],

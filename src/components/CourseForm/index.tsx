@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react'
 import { IHoleData } from '../../ts/interfaces'
 import Loader from '../Loader'
-import './courseForm.scss'
+import '../../scss/form.scss'
 
 interface ICourseFormProps {
   handleFormChangeCourseName: (event: ChangeEvent<HTMLInputElement>) => void

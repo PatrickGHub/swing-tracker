@@ -8,8 +8,18 @@ form {
     padding: 0;
   }
 
-  label, input {
+  input, label {
     display: block;
+    width: calc(100% - 10px);
+  }
+
+  button, label {
+    margin-top: .5em;
+    width: 100%;
+  }
+
+  button, input, select {
+    padding: 3px;
   }
 }
 

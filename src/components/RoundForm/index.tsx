@@ -79,55 +79,57 @@ const RoundForm = ({ courses, selectedCourseName }: IRoundFormProps) => {
         courses.length > 0 ? 
         (
           <form onSubmit={handleSubmit}>
-            <label htmlFor='course'>Course</label>
-            <select
-              id='course'
-              onChange={handleCourseSelect}
-              defaultValue={selectedCourseName || 'Select a course'}
-            >
-              <option disabled>Select a course</option>
-              {courses.map((course) => (
-                <option
-                  key={course.name}
-                  value={course.name}
-                >
-                  {course.name}
-                </option>
-              ))}
-            </select>
+            <fieldset>
+              <label htmlFor='course'>Course</label>
+              <select
+                id='course'
+                onChange={handleCourseSelect}
+                defaultValue={selectedCourseName || 'Select a course'}
+              >
+                <option disabled>Select a course</option>
+                {courses.map((course) => (
+                  <option
+                    key={course.name}
+                    value={course.name}
+                  >
+                    {course.name}
+                  </option>
+                ))}
+              </select>
 
-            <label>Date Played</label>
-            <DatePicker
-              dateFormat='dd/MM/yyyy'
-              selected={roundPlayedDate}
-              onChange={(date: Date) => setRoundPlayedDate(date)}
-            />
+              <label>Date Played</label>
+              <DatePicker
+                dateFormat='dd/MM/yyyy'
+                selected={roundPlayedDate}
+                onChange={(date: Date) => setRoundPlayedDate(date)}
+              />
 
-            {
-              selectedCourse &&
-              JSON.parse(selectedCourse.holesData).map((hole: IHoleData) => {
-                return (
-                  <div key={`hole${hole.hole}Container`}>
-                    <label
-                      key={`hole${hole.hole}Label`}
-                      htmlFor={`hole${hole.hole}`}
-                    >
-                      Hole {hole.hole}
-                    </label>
-                    <input
-                      type="number"
-                      key={`hole${hole.hole}Input`}
-                      id={`hole${hole.hole}`}
-                      data-hole={hole.hole}
-                      data-par={hole.par}
-                      onChange={handleHolesDataChange}
-                    />
-                  </div>
-                )
-              })
-            }
+              {
+                selectedCourse &&
+                JSON.parse(selectedCourse.holesData).map((hole: IHoleData) => {
+                  return (
+                    <div key={`hole${hole.hole}Container`}>
+                      <label
+                        key={`hole${hole.hole}Label`}
+                        htmlFor={`hole${hole.hole}`}
+                      >
+                        Hole {hole.hole}
+                      </label>
+                      <input
+                        type="number"
+                        key={`hole${hole.hole}Input`}
+                        id={`hole${hole.hole}`}
+                        data-hole={hole.hole}
+                        data-par={hole.par}
+                        onChange={handleHolesDataChange}
+                      />
+                    </div>
+                  )
+                })
+              }
 
-            <button type='submit'>Submit</button>
+              <button type='submit'>Submit</button>
+            </fieldset>
           </form>
         )
       :

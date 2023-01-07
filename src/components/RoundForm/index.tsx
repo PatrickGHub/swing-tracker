@@ -4,7 +4,6 @@ import { ICourseData, IHoleData } from '../../ts/interfaces'
 import Loader from '../Loader'
 import 'react-datepicker/dist/react-datepicker.css'
 import './roundForm.scss'
-// import Loader from '../../components/Loader'
 
 interface IRoundFormProps {
   courses: ICourseData[],
@@ -33,7 +32,7 @@ const RoundForm = ({
   return (
     <>
       {
-        courses.length > 0 ? 
+        courses.length > 0 ?
         (
           <div>
             <form onSubmit={handleFormSubmit}>

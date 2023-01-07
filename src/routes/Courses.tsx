@@ -15,6 +15,7 @@ const Courses = () => {
   const [formCourseName, setFormCourseName] = useState<string | null>(null)
   const [formNumberOfHoles, setFormNumberOfHoles] = useState<number>(0)
   const [formHolesData, setFormHolesData] = useState<IHoleData[]>([])
+  const [formSubmitting, setFormSubmitting] = useState<boolean>(false)
 
   useEffect(() => {
     const fetchCourseData = async() => {
@@ -73,6 +74,7 @@ const Courses = () => {
   }
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    setFormSubmitting(true)
     event.preventDefault()
 
     const data = {
@@ -94,6 +96,9 @@ const Courses = () => {
       },
       data
     })
+
+    setcourseFormVisible(false)
+    setFormSubmitting(false)
   }
 
   return (
@@ -130,6 +135,7 @@ const Courses = () => {
                     handleFormChangeNumberOfHoles={handleFormChangeNumberOfHoles}
                     handleFormParYardsChange={handleFormParYardsChange}
                     handleFormSubmit={handleFormSubmit}
+                    formSubmitting={formSubmitting}
                   />
                 }
               </div>

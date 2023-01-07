@@ -14,10 +14,11 @@ const Rounds = () => {
   const [searchParams] = useSearchParams()
   const courseParameter = searchParams.get('course')
   const addRoundParameter = searchParams.get('addRound')
+  const [courses, setCourses] = useState<ICourseData[]>([])
   const [rounds, setRounds] = useState([])
   const [selectedRound, setSelectedRound] = useState<IRoundData | null>()
+
   const [roundFormVisible, setRoundFormVisible] = useState<boolean>(false)
-  const [courses, setCourses] = useState<ICourseData[]>([])
   const [selectedFormCourse, setSelectedFormCourse] = useState<ICourseData | undefined>()
   const [formHolesData, setFormHolesData] = useState<IHoleRoundData[]>([])
   const [formRoundPlayedDate, setFormRoundPlayedDate] = useState<Date>(new Date())

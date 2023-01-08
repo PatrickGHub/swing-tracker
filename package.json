@@ -39,7 +39,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --runInBand",
+    "test": "jest --runInBand --coverage",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .jsx,.js,.tsx,.ts src/"
   },

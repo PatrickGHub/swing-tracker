@@ -75,7 +75,6 @@ export const handler = async (event: APIGatewayProxyEventV2) => {
         await dynamo.delete({
           TableName: eventBody.type,
           Key: {
-            // Key: {id: eventBody.id}
             id: eventBody.id
           }
         })
